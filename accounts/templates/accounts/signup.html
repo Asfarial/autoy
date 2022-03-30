@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block content %}
+        <div class="container" >
+        <div style="max-width: 800px; margin: 50px auto">
+        <h1 style="text-align: center">Sign Up</h1>
+        {% if messages %}
+            <div class="my-5 alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}">
+                <h5 class="m-0">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </h5>
+            </div>
+        {% endif %}
+        {% if user_form.errors or profile_form.errors %}
+        <div class="my-5 alert alert-danger">
+            <h5 class="m-0">
+                {% for key, error in user_form.errors.items %}
+                {{ error }}
+                {% endfor %}
+                {% for key, error in profile_form.errors.items %}
+                {{ error }}
+                {% endfor %}
+            </h5>
+        </div>
+        {% endif %}
+        <form action="{% url "accounts:signup" %}" method="post" style="margin: auto; width: fit-content">
+        {% csrf_token %}
+        <table>
+            {% for field in user_form %}
+                <tr>
+                    <td style="float:right">{{ field.label_tag }}</td>
+                    <td>{{ field }}</td>
+                </tr>
+                    {% if field.help_text %}
+                        <tr><td style="float:right"><small style="display: none">{{ field.help_text }}</small></td></tr>
+
+                    {% endif %}
+                    {% if field.id_for_label == "id_password1" %}
+                        <tr>
+                        <td></td>
+                        <td style="float: right; position: relative"><input style="position: absolute; top:6px" type="button" class="show-password" value="SHOW" onclick="myFunction()" id="show-hide"></td>
+                        </tr>
+                    {% endif %}
+            {% endfor %}
+            {% for field in profile_form %}
+                {% if field.id_for_label == "id_agreement" %}
+                    <tr><td style="text-align: center" colspan="2">Hereby I mutually agree with <a href="{% url "accounts:agreement" %}">Terms and conditions</a> {{ field}}</td></tr>
+                {% elif field.id_for_label == "id_subscription" %}
+                    <tr><td style="text-align: center" colspan="2">I want to receive newslatters {{ field}}</td></tr>
+                {% else %}
+                <tr>
+                    <td style="float:right">{{ field.label_tag }}</td>
+                    <td>{{ field }}</td>
+                </tr>
+                {% endif %}
+                    {% if field.help_text %}
+                        <tr><td style="float:right"><small style="display: none">{{ field.help_text }}</small></td></tr>
+
+                    {% endif %}
+
+            {% endfor %}
+
+        <tr><td></td><td style="float:right"><input class="login-button" type="submit" value="Sign Up"></td></tr>
+
+        </table>
+        </form>
+        </div>
+        </div>
+        <script>
+    function myFunction() {
+  var x1 = document.getElementById("id_password1");
+  var x2 = document.getElementById("id_password2");
+  var y = document.getElementById("show-hide");
+  if (x1.type === "password") {
+    x1.type = "text";
+    x2.type = "text";
+    y.value = "HIDE"
+  } else {
+    x1.type = "password";
+    x2.type = "password";
+    y.value = "SHOW"
+  }
+
+
+}
+</script>
+{% endblock %}

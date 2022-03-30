@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load tags %}
+{% block content %}
+    <div class="container">
+
+
+    <div class="car-content">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="my-5 alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}">
+    <h5 class="m-0">
+    {{ message }}
+    </h5>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <br>
+    <a href="{{ go_back }}">Go back</a>
+    <h1 style="text-align: center">{{ car.title }}   </h1>
+
+    <div>
+        {% if quantity > 0 %}
+    <h2>Available: {{ quantity }} pcs</h2>
+        {% else %}
+    <h2>Not Available</h2>
+        {% endif %}
+    </div>
+    <div style="float: right">
+        <h2 >{{ car.price }} $</h2>
+        {% if not in_cart %}
+            {% if quantity > 0 %}
+        <form method="post" action="{% url "accounts:cart-controller" %}">{% csrf_token %}<button type="submit" class="login-button" name="add-to-cart" value="{{ car.id }}">Add to cart</button></form>
+            {% endif %}
+        {% else %}
+            <button type="button" class="login-button" onclick="location.href='{% url "accounts:cart" %}'">Already in Cart</button>
+        {% endif %}
+    </div>
+        <a href="{% url 'catalog:category' category_url %}"><h2>{{ car.category }}</h2></a>
+<form class="stars" method="post" action="{% url 'catalog:rate' car.pk %}">
+{% csrf_token %}
+{% for i in 5|xrange %}
+<button name="btn" type="submit"
+{% if car.get_rating >= i %}
+class="fa fa-star"
+{% else %}
+class="fa fa-star-o"
+{% endif %}
+style="color: red; cursor: cell; background: none" value="{{ i }}"></button>
+{% endfor %}
+</form>
+    {% if user.is_authenticated %}
+        {% if rating %}
+            <p>Your rating: {{ rating }}
+        {% endif %}
+    {% endif %}
+    <div>
+    <img style="align-content: center; max-width: 300px" src="{{car.image.url }}">
+    </div>
+    <h2>Characteristics:</h2>
+    <p>
+    {% for characteristic in characteristics %}
+    {{ characteristic }}
+    {% endfor %}
+    </p>
+
+        <br>
+
+    <p>{{ car.description }}</p>
+    <br>
+        </div>
+        </div>
+{% endblock %}

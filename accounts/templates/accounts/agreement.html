@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container" >
+        <div style="max-width: 400px; margin: 50px auto">
+        <h1>Agreement</h1>
+            {% if messages %}
+                {% for message in messages %}
+                  <div class="my-5 alert alert-{% if message.tags %}{{ message.tags }}{% else %}warning{% endif %}">
+                    <h5 class="m-0">
+                        {{ message }}
+                    </h5>
+                  </div>
+                {% endfor %}
+          {% endif %}
+        <h3>Text of agreement</h3>
+
+        </div>
+    </div>
+{% endblock %}

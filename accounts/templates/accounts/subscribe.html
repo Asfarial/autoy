@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container" >
+        <div style="max-width: 400px; margin: 50px auto">
+        <h1>Subscribe</h1>
+            {% if messages %}
+                {% for message in messages %}
+                  <div class="my-5 alert alert-{% if message.tags %}{{ message.tags }}{% else %}warning{% endif %}">
+                    <h5 class="m-0">
+                        {{ message }}
+                    </h5>
+                  </div>
+                {% endfor %}
+          {% endif %}
+        {% if email_confirm %}
+                    <div class="my-5 alert {% if email_confirm.success %}alert-success{% else %} alert-danger{% endif %}">
+                    <h5 class="m-0">
+                        {{ email_confirm.message }}
+                    </h5>
+                    </div>
+        {% endif %}
+        <form action="{% url "accounts:subscribe" %}" method="post">
+            {% csrf_token %}
+            <table>
+            <tr>
+                <td>Email: </td>
+                <td>
+                    {{form.email }}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input style="float:right" class="login-button" type="submit" value="Subscribe"></td>
+            </tr>
+            </table>
+        </form>
+
+        </div>
+    </div>
+{% endblock %}

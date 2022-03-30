@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+Autoy Shop - Home Page
+{% endblock %}
+{% block content %}
+<section class="slider_section">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container-fluid padding_dd">
+              <div class="carousel-caption">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="text-bg">
+                     <span>Welcome To Autoy Shop</span>
+                      <h1>All Car Toys is here</h1>
+			{% if random_model %}	
+                        <a  href="{{ random_model.get_absolute_url }}">
+                            <p style="float: left"> {{ random_model.title }}</p> <p style="text-align: end"> {{ random_model.price }}   $</p></a>
+                        <p style="color: rgb(108,108,108); font-style: italic; max-height: 300px; overflow: hidden"> {{ random_model.description }}</p>
+			{% endif %}
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+		    {% if random_model %}
+                    <div class="images_box" >
+                      <figure><a href="{{ random_model.get_absolute_url }}"><img  src="{{random_model.image.url}}"></a></figure>
+                    </div>
+		    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</header>
+
+
+<!-- contact -->
+<div id="contact" class="contact" style="background-image: url({% get_media_prefix %}/catalog/porsche-911-Carrera-4S-Pullback_-lava-orange-1-43_2048x.jpg);)">
+  <div class="container">
+   <div class="row">
+     <div class="col-md-12">
+                <div class="titlepage">
+                  <h2>Find <strong class="llow">us</strong></h2>
+                </div>
+   </div>
+
+</div>
+    <div class="white_color">
+      <div class="row">
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="flex: 0 0 100%; max-width: 100%">
+<div id="map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52346.38311463434!2d30.71658353398402!3d46.40671850771397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c6338abced7f1b%3A0x805f1ecf623d596d!2z0JDQstGC0L7QstC40LrRg9C_IEFydEF1dG8g0LIg0J7QtNC10YHRlg!5e0!3m2!1sen!2sua!4v1635513590259!5m2!1sen!2sua" width="100%" height="100%" style="border:0; padding: 20px;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+           </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+</div>
+    <!-- end contact -->
+{% endblock %}

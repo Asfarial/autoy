@@ -1,0 +1,26 @@
+    cars = models.Cars.objects.all()
+    for i in range(random.randint(100, 1000)):
+        for car in cars:
+            car_chars = car.characteristics.all()
+            new = models.Cars(title=str(car.title+"_"+str(i)), category=car.category, price=random.randint(1,500), image=car.image, description=car.description+"very good car, other text, good sides, no bad sides, shine, fast and furious, same as this text, form symbol to symbol, go-go-go. very good car, other text, good sides, no bad sides, shine, fast and furious, same as this text, form symbol to symbol, go-go-govery good car, other text, good sides, no bad sides, shine, fast and furious, same as this text, form symbol to symbol, go-go-govery good car, other text, good sides, no bad sides, shine, fast and furious, same as this text, form symbol to symbol, go-go-go")
+            new.save()
+            for char in car_chars:
+                new.characteristics.add(char)
+				
+	    rand = random.randint(100, 1000)
+    all_cars = models.Cars.objects.only('title').all()
+    STATES = (
+        ('m', 'Maintenance'),
+        ('a', 'Available'),
+        ('r', 'Reserved'),
+        ('s', 'Sold'),
+    )
+    for i in range(rand):
+        for car in all_cars:
+            rand_state = random.randint(0, 3)
+            new = models.CarInstance(car=car, status=STATES[rand_state][0])
+            new.save()
+    car_models = models.Cars.objects.filter(title__icontains="amg")
+    char = models.Characteristics.objects.filter(name__exact="Green")
+    for model in car_models:
+        model.characteristics.add(char[0])

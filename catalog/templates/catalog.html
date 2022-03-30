@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load tags %}
+{% block additional_styles %}
+    <link rel="stylesheet" href="{% static 'catalog/css/templatemo-sixteen.css' %}" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block content %}
+
+    <div class="products">
+      <div class="container">
+        <div class="row">
+
+            <!-- Start Filters -->
+          <div class="col-md-12">
+              <div class="filters-underline">
+                  <div class="filters">
+                    <div style="text-align: left">
+                        <div class="dropdown">
+                          <button class="dropbtn">Category</button>
+                          <div class="dropdown-content">
+                                    <a href="{% url 'catalog:catalog' %}"{% if request.path == '/catalog/'%} class="active"{% endif %} style="border-bottom: 1px solid #000000;">All</a>
+                                {% for category in categories_list %}
+                                    <a href="{% url 'catalog:category' category.slug %}" {% if request.path == category.url%} class="active"{% endif %}>{{ category.name }}</a>
+                                {% endfor %}
+                          </div>
+                        </div>
+                        <div style="display: inline-block; float: right">
+
+                            <form action="{% url 'catalog:search' %}" method="get" style="display: table-caption">
+                            <label style="display: inline; max-width: 49%">
+                                <input type="search" name="search" style="max-width: 49%">
+                                </label>
+                                <button type="submit" class="filter-button">Search</button>
+                        </form>
+
+                        <!--
+                            {% if searched_list %}
+                                <div class="container">
+                        <form method="get" action="{% url 'catalog:catalog' %}" style="display: inline-block;" >
+                            <button type="submit" name="filters-clear-all" value="True" class="filter-button" style="right:0;margin-top: 10px; padding: 5px 10px; font-weight: 200; position: absolute; ">Clear searched</button>
+                        </form>
+                                </div>
+                            {% endif %} -->
+                        </div>
+
+
+
+
+                    </div>
+                    <div style="margin-top: 10px; display: inline-block">
+                        <div style="text-align: center; font-size: 24px; font-weight: bold; color: black">
+                            {{ catalog_title }}
+                            {% if searched_list %}
+                            <h6>Searched for: {{ searched_list }}</h6>
+                            {% endif %}
+                            <h6>Items found: {{ quantity }}</h6>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="my-5 alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}">
+                            <h5 class="m-0">
+                            {{ message }}
+                            </h5>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <form style="margin-top: 20px; display:contents" method="get" >
+                        <ul id="{{ main_filter_form.characteristics.auto_id }}">
+                            {% for filter in main_filter_form.characteristics %}
+                                {% if filter.choice_label in active_filters %}
+                                <li {% if filter.choice_label in main_filter_form.characteristics.value %}class="active"{% endif %}>
+                                {{ filter }}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                            <button type="submit" value="filter" class="filter-button">Filter</button>
+
+                        </form>
+                        <form method="get" style="display: inline-block;" >
+                            <button type="submit" name="filters-clear-all" value="True" class="filter-button" style="margin-top: 10px; padding: 5px 10px; font-weight: 200; position: absolute; left: 0;">Clear all</button>
+                        </form>
+
+                        <form action="" method="get" style="display: inline-block;">
+                        <div class="form-dropdown">
+                        <label  for="{{ form.Items_per_page.name }}">{{ form.Items_per_page.label }}</label>
+                        {% for field in form %}
+                            {{ field }}
+                        {% endfor %}
+                        </div>
+                        </form>
+                    </div>
+                  </div>
+              </div>
+          </div>
+            <!-- End Filters -->
+            <!-- Start Content -->
+          <div class="col-md-12">
+            <div class="filters-content">
+                <div class="row grid" style="position: relative;">
+                    <!-- Start Item -->
+                    {% if cars_list %}
+                        {% for car in cars_list.object_list %}
+                    <div class="col-lg-4 col-md-4 all dev" >
+                      <div class="product-item" style="position: relative">
+                          <a href="{{ car.get_absolute_url }}">
+                              <div style="width: 100%; height: 100%; {% if car.quantity == 0 %}background: rgba(236,236,236,0.43);{% endif %} z-index: 1; position: absolute;">
+                                  {% if car.quantity == 0 %}<p class="not-available">Not available</p>{% endif %}
+                              </div>
+                          </a>
+                        <img src="{{car.image.url }}" alt="" >
+                        <div class="down-content" style="margin-bottom: 50px">
+                          <h4 style="max-width: 180px; height: 62px; margin-bottom: 12px">{{ car.title }}</h4>
+                          <h6>{{ car.price }}$</h6>
+                          <p>{{ car.description }}</p>
+                        </div>
+                        <form class="stars" method="post" style="position: absolute; z-index: 1; bottom: 10px; left: 30px" action="{% url 'catalog:rate' car.pk %}">
+                                {% csrf_token %}
+                                {% for i in 5|xrange %}
+                                    <button name="btn" type="submit"
+                                    {% if car.computed_rating >= i %}
+                                            class="fa fa-star"
+                                            {% else %}
+                                            class="fa fa-star-o"
+                                    {% endif %}
+                                            style="color: red; cursor: cell; background: none" value="{{ i }}"></button>
+                                {% endfor %}
+                            </form>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                        <h1 style="margin: auto">There are no such cars in the catalog for the moment =(((</h1>
+                    {% endif %}
+                    <!-- End Items -->
+                </div>
+            </div>
+          </div>
+            <!-- End Contents -->
+            <!-- Start Pages/Paginator -->
+          <div class="col-md-12 paginator-bottom">
+            <ul class="pages">
+
+                {% if pages_middle_left != None %}
+
+                    <li><a href="?page={{ 1 }}">1</a></li>
+                        {% if pages_middle_left != 1 %}
+                            <li><a href="?page={{ pages_middle_left }}">...</a></li>
+                        {% endif %}
+                {% endif %}
+                {% for page in pages_list %}
+                    <li {% if cars_list.number == page %}class="active"{% endif %}><a
+                            href="?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                {% if pages_middle_right != None %}
+                    {% if pages_middle_right != ars_list.paginator.num_pages %}
+                        <li><a href="?page={{ pages_middle_right }}">...</a></li>
+                    {% endif %}
+                    <li><a href="?page={{ cars_list.paginator.num_pages }}">{{ cars_list.paginator.num_pages }}</a></li>
+                {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Pages/Paginator -->
+{% endblock %}
