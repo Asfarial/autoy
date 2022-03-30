@@ -8,14 +8,10 @@ cffi==1.14.6
 charset-normalizer==2.0.4
 cleo==0.8.1
 clikit==0.6.2
-cloudinary==1.29.0
 crashtest==0.3.1
-cryptography==36.0.1
+cryptography==3.4.8
 distlib==0.3.2
-dj-database-url==0.5.0
 Django==3.2.8
-django-cloudinary-storage==0.3.0
-django-heroku==0.3.1
 django-silk==4.2.0
 filelock==3.0.12
 gprof2dot==2021.2.21
@@ -38,7 +34,6 @@ pkginfo==1.7.1
 platformdirs==2.3.0
 poetry==1.1.8
 poetry-core==1.0.4
-psycopg2==2.9.3
 psycopg2-binary==2.9.2
 ptyprocess==0.7.0
 pycodestyle==2.8.0
@@ -60,4 +55,3 @@ urllib3==1.26.6
 virtualenv==20.7.2
 virtualenv-clone==0.5.6
 webencodings==0.5.1
-whitenoise==6.0.0

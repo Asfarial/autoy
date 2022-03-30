@@ -2,7 +2,6 @@ from django import forms
 from .models import Characteristics
 from Django_Online_Shop.settings import DB_TRANSFER
 
-
 class ItemsPerPageForm(forms.Form):
     CHOICES = (
         (6, 6),

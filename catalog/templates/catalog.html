@@ -108,7 +108,7 @@
                                   {% if car.quantity == 0 %}<p class="not-available">Not available</p>{% endif %}
                               </div>
                           </a>
-                        <img src="{{car.image.url }}" alt="" >
+                        <img src="{% get_media_prefix %}{{car.image }}" alt="" >
                         <div class="down-content" style="margin-bottom: 50px">
                           <h4 style="max-width: 180px; height: 62px; margin-bottom: 12px">{{ car.title }}</h4>
                           <h6>{{ car.price }}$</h6>

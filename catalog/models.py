@@ -3,7 +3,7 @@ from django.urls import reverse
 import uuid
 from django.template.defaultfilters import slugify
 import datetime
-from cloudinary.models import CloudinaryField
+
 from django.core.exceptions import ValidationError
 
 
@@ -78,8 +78,7 @@ class Cars(models.Model):
     characteristics = models.ManyToManyField(Characteristics, related_name='cars')
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
     price = models.PositiveIntegerField(default=0, help_text='USD')
-    #image = models.ImageField(upload_to='catalog/', blank=True, null=True)
-    image = CloudinaryField(blank=True, null=True)
+    image = models.ImageField(upload_to='catalog/', blank=True, null=True)
     description = models.TextField(max_length=1024, blank=True)
     quantity = models.PositiveIntegerField(default=0)
     CHOICES = (

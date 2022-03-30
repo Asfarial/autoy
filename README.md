@@ -1,5 +1,4 @@
-Django_Online_Shop<br>
-HEROKU BRANCH
+Django_Online_Shop
 
 November, 2021<br>
 Author: Vladyslav Zolotukhin <br>
@@ -20,8 +19,9 @@ Email Server: SMTP gmail <br>
 //Email Server Mailchimp Transactional - removed to file <br>
 
 Website: autoyshop.pp.ua <br>
-Host: Heroku <br>
-SSL/TLS: CloudFlare <br>
+Host: DigitalOcean <br>
+Server: Ubuntu > Nginx + Gunicorn <br>
+SSL/TLS: TLS 1.3 - Let`s Encrypt - certbot <br>
 
 https://github.com/Asfarial/Django_Online_Shop_pub
 

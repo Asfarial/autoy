@@ -75,7 +75,7 @@
                         <div style="display: inline-block; vertical-align: top">{{ forloop.counter }}. {{ items.object.title }}</div>
 
                         <div style="max-width: 50px; display: inline-block">
-                            <img src="{{ items.object.image.url }}">
+                            <img src="{% get_media_prefix %}{{ items.object.image }}">
                         </div>
                         <div style="position: absolute; right: 10px; bottom: 5px; margin-top: 10px; text-align: right   ">
                             Price Total: {{ items.price_total }}$<br>

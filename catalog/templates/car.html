@@ -57,7 +57,7 @@ style="color: red; cursor: cell; background: none" value="{{ i }}"></button>
         {% endif %}
     {% endif %}
     <div>
-    <img style="align-content: center; max-width: 300px" src="{{car.image.url }}">
+    <img style="align-content: center; max-width: 300px" src="{% get_media_prefix %}{{car.image }}">
     </div>
     <h2>Characteristics:</h2>
     <p>

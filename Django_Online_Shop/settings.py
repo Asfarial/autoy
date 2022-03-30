@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
-import cloudinary
 from . import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,12 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
     # removed because caused some errors
     #'django.contrib.sites',
-    'cloudinary',
     'catalog.apps.CatalogConfig',
     'layout',
     'accounts',
@@ -51,7 +46,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,26 +131,8 @@ STATICFILES_DIRS = (
     ("catalog", 'catalog/static')
 )
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-API_SECRET = os.environ.get('cloudinary_secret', None)
-
-if API_SECRET:
-    cloudinary.config(
-        cloud_name="dcf7zq0mn",
-        api_key="928634439619496",
-        api_secret=API_SECRET,
-    )
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'dcf7zq0mn',
-        'API_KEY': '928634439619496',
-        'API_SECRET': API_SECRET,
-    }
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -173,35 +149,20 @@ EMAIL_PORT = secrets.EMAIL_PORT
 MAILCHIMP_API_KEY = secrets.MAILCHIMP_API_KEY
 MAILCHIMP_DATA_CENTER = secrets.MAILCHIMP_DATA_CENTER
 MAILCHIMP_EMAIL_LIST_ID = secrets.MAILCHIMP_EMAIL_LIST_ID
-# FOR INITIALIZING NEW DATABASE
-DB_TRANSFER = False
 
 # Settings for git-flow principle (merging)
 if DEBUG == False:
-    """
-    DISABLED BECAUSE
-    
-    Deployed on Heroku free Dyno
-    Means no SSL certificate can be installed
-    The Server works through Cloudflare flexible
-    In such condition these settings make infinite redirects
-    
-    """
-    #CSRF_COOKIE_SECURE = True
-    #SESSION_COOKIE_SECURE = True
-    #SECURE_SSL_REDIRECT = True
-    #SECURE_HSTS_SECONDS = 1
-    #SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    #SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['autoy.pp.ua','autoyshop.pp.ua', 'autoy.herokuapp.com', 'localhost']
-    if DB_TRANSFER:
-        INSTALLED_APPS += ['silk']
-        MIDDLEWARE.insert(3, 'silk.middleware.SilkyMiddleware')
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 1
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    ALLOWED_HOSTS = ['autoy.pp.ua','autoyshop.pp.ua','167.172.160.80', 'localhost']
 else:
     ALLOWED_HOSTS = []
     INSTALLED_APPS += ['silk']
-    MIDDLEWARE.insert(3, 'silk.middleware.SilkyMiddleware')
+    MIDDLEWARE.insert(2, 'silk.middleware.SilkyMiddleware')
 
-
-django_heroku.settings(locals())
-
+# FOR INITIALIZING NEW DATABASE
+DB_TRANSFER = False

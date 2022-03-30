@@ -212,6 +212,7 @@
      color: #114c7d;
      font-weight: 400;
      font-size: 28px;
+     background-image: url('../images/fevicon.png');
      background-repeat: no-repeat;
      padding-left: 55px;
      letter-spacing: -0.5px;
@@ -1166,7 +1167,7 @@ padding: 40px 0;
 .about .about-box::after {
      position: absolute;
      content: "";
-
+     background: url(../images/crros.png);
      height: 244px;
 width: 187px;
 bottom: 0;
@@ -1324,7 +1325,7 @@ text-align: right;
 .clients_red {
      background: #fff;
      padding-bottom: 50px;
-
+     background: url(../images/test.png);
      min-height: 978px;
      background-repeat: no-repeat;
      display: flex;

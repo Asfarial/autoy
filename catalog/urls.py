@@ -1,6 +1,4 @@
 from django.urls import path
-
-import Django_Online_Shop.settings
 from . import views
 from . import models
 
@@ -10,8 +8,6 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='home')
 ]
 
-if Django_Online_Shop.settings.DEBUG:
-    urlpatterns += [path("images/", views.image_transfer, name='images')]
 #adding catalog urls
 urlpatterns += [
     path("catalog/", views.CarsListView.as_view(), name="catalog")

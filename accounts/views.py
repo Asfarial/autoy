@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
+from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from mailchimp_marketing import Client
 from mailchimp_marketing.api_client import ApiClientError
@@ -157,7 +157,7 @@ def AccountsRedirect(request):
 
 def subscribe_verification(request, uidb64, token):
     try:
-        email = force_str(urlsafe_base64_decode(uidb64))
+        email = force_text(urlsafe_base64_decode(uidb64))
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         email = None
     if email is not None and subscription_token.check_token("Customer", token):
@@ -177,7 +177,7 @@ def subscribe_verification(request, uidb64, token):
 
 def change_email(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -204,7 +204,7 @@ def change_email(request, uidb64, token):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -499,7 +499,7 @@ def PasswordReset(request):
 
 def PasswordResetConfirm(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None

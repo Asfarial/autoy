@@ -1,8 +1,8 @@
 import datetime
 
-import cloudinary.uploader
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+
 import Django_Online_Shop.settings
 from . import models
 from . import forms
@@ -121,7 +121,7 @@ class NavView(ContextMixin):
 
 
 # class for Pagination of Catalog
-# to inherit in different views such as:
+# to inherit in diferent views such as:
 #   CarsListView
 #   CarsByCategoryListView
 # paginate_by shall be disabled within child class
@@ -392,6 +392,7 @@ class IndexView(NavView, generic.TemplateView):
         return context
 
 
+
 # Main Catalog
 class CarsListView(NavView, Pagination, generic.TemplateView):
     # redefining to pretty name
@@ -432,41 +433,3 @@ class CarDetailView(NavView, generic.DetailView):
         context["category_url"] = \
             models.Categories.objects.filter(name__exact=context["car"].category).values('slug')[0]['slug']
         return context
-
-def image_transfer(request):
-    from django.http import HttpResponse
-    import os
-
-    def format_public_id(public_id):
-        old_public_id = public_id.split('/')
-        if "media" in old_public_id:
-            old_public_id.remove('media')
-        fname = old_public_id[-1].split(".")
-        old_public_id[-1] = fname[0]
-        old_public_id = "/".join(old_public_id)
-        return old_public_id
-
-    def get_default_images():
-        cars = models.Cars.objects.all()[:8]
-        default = {}
-        for car in cars:
-            old_public_id = format_public_id(car.image.public_id)
-            filename = os.path.join("media", old_public_id + '.jpg')
-            car.image = cloudinary.uploader.upload_resource(filename, resource_type="auto", public_id=filename, overwrite=True)
-            default[old_public_id] = car.image
-            car.save()
-        return default
-
-    def populate_all_products(default):
-        cars = models.Cars.objects.all()[8:]
-        for car in cars:
-            if car.image.public_id in default.keys():
-                car.image = default[car.image.public_id]
-                car.save()
-
-    try:
-        default = get_default_images()
-        populate_all_products(default)
-    except Exception as error:
-        return HttpResponse("Error while updating\n", error)
-    return HttpResponse("Images updated")
