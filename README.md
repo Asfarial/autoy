@@ -23,7 +23,7 @@ Host: DigitalOcean <br>
 Server: Ubuntu > Nginx + Gunicorn <br>
 SSL/TLS: TLS 1.3 - Let`s Encrypt - certbot <br>
 
-https://github.com/Asfarial/Django_Online_Shop_pub
+https://github.com/Asfarial/autoy
 
 
 Functionalities:
