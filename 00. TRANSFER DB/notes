@@ -1,0 +1,3 @@
+db.json with excluded silk:
+
+python3 manage.py dumpdata -e silk > db.json

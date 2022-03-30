@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="container" >
+        <div style="max-width: 600px; margin: 50px auto">
+            <h1 style="width: 45%; display: inline-block">Cart</h1>
+            {% if messages %}
+                {% for message in messages %}
+                 <div class="my-5 alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}">
+                    <h5 class="m-0">
+                        {{ message }}
+                    </h5>
+                 </div>
+                {% endfor %}
+            {% endif %}
+            {% if cart %}
+
+                {% for pk, items in cart.items %}
+
+                    <div style="margin-top: 30px; position: relative; width: 100%; border: 1px solid #eee;">
+
+
+
+                    <a href="{{ items.object.get_absolute_url }}">
+                   <div class="cart-item" style="position: relative; width: 100%; border: 1px solid #eee; padding: 15px; min-height: 70px">
+                        <div style="display: inline-block; vertical-align: top; max-width: 40%">{{ forloop.counter }}. {{ items.object.title }}
+                        </div>
+
+                        <div style="max-width: 50px; display: inline-block">
+                            <img src="{{ items.object.image.url }}">
+                        </div>
+                        <div style="position: absolute; right: 40px; bottom: 5px; margin-top: 10px; text-align: right   ">
+                            Price Total: {{ items.price_total }}$<br>
+                            One piece price: {{ items.object.price }}$
+                        </div>
+
+                        <form style="display: inline-block; position: absolute; right: 5px; top: 5px" method="post" action="{% url "accounts:cart-controller" %}">
+                            {% csrf_token %}
+                            <button class="login-button" style="padding: 0px 8px" value="{{ pk }}" type="submit" name="remove-from-cart">X</button>
+                        </form>
+                    </div>
+</a>
+                                        <div style="width: fit-content; margin: auto; padding: 10px">
+                            <form method="post" action="{% url "accounts:cart-controller" %}">
+                            {% csrf_token %}
+                                {% if items.quantity > 1 %}
+                            <button class="login-button" style="padding: 0px 8px" value="{{ pk }}" type="submit" name="cart-minus-one">-1</button>
+                                {% endif %}
+                                Quantity: {{items.quantity}}
+                            {% if not items.max %}
+                            <button class="login-button" style="padding: 0px 8px" value="{{ pk }}" type="submit" name="cart-plus-one">+1</button>
+                            {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+                            <h1 style="display: inline-block; float: left; margin-top: 16px">Total Price: {{ cart_total_price }}$</h1>
+                <form method="post" action="{% url "accounts:checkout" %}" style="margin-top: 20px; margin-bottom: 100px; ">
+                {% csrf_token %}
+                <input type="submit" style="background: rgba(85,229,58,0.82); float: right; padding: 6px 40px" class="login-button" name="checkout" value="Buy">
+                </form>
+            {% else %}
+                <h3 style="text-align: center">Your cart is empty</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

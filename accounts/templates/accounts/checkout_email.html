@@ -1,0 +1,13 @@
+{% autoescape off %}
+Dear {{ user }},
+Thank You, for Your order!
+
+    ORDER NUMBER: {{ order_number }}
+    DATE: {{ bought_date }}{% for key, value in profile.items %}
+        {{ key }}: {{ value }}{% endfor %}
+    TOTAL PRICE: {{ cart_total_price }}$
+    {% for cart_key, cart_value in cart.items %}
+        {{ forloop.counter }}. {{ cart_value.object.title }} - {{ cart_value.object.price }}$ x {{ cart_value.quantity }} pcs{% endfor %}
+
+http://{{ domain }}
+{% endautoescape %}

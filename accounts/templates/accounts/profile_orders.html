@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    <div class="container" >
+        <div style="max-width: 600px; margin: 50px auto">
+
+        <h1 style="display: inline-block">Profile - Orders</h1>
+        <input type="submit" onclick="window.location.href='{% url 'accounts:profile' %}';" value="Back" class="login-button"
+        style="display: inline-block; float: right">
+            {% if messages %}
+                {% for message in messages %}
+                 <div class="my-5 alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}">
+                    <h5 class="m-0">
+                        {{ message }}
+                    </h5>
+                 </div>
+                {% endfor %}
+            {% endif %}
+        {% if orders %}
+        {% for order in orders %}
+            <a href="{% url 'accounts:profile-order-details' order.pk %}">
+            <div style="position: relative; width: 100%; border: 1px solid #eee;">
+
+               <div style="position: relative; width: 100%; border: 1px solid #eee; padding: 15px;">
+                    <div style="display: inline-block; vertical-align: top">{{ forloop.counter }}. {{ order }}</div>
+                    <div>{{ order.bought_date }}</div>
+                    <div>{{ order.get_status_display }}</div>
+                    <div style="position: absolute; right: 10px; bottom: 5px; margin-top: 10px; text-align: right   ">
+                        Price: {{ order.total_price }}$
+                    </div>
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+        {% else %}
+            <h4>You have no orders yet</h4>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
